@@ -15,6 +15,12 @@ struct ContentView: View {
             VStack
             {
                 CustomTextTitle(title: "Rock Paper Scissors")
+                    .foregroundColor(.black)
+                    .background(
+                        Image("Grass")
+                        .resizable()
+                        .frame(width: 800, height: 1565)
+                                            )
                 NavigationLink("Play", destination: Names()
                     .navigationBarBackButtonHidden(true)
                     .foregroundColor(.black)
@@ -29,6 +35,8 @@ struct ContentView: View {
                 .padding()
                 .font(.system(size: 20))
                 Spacer()
+                    
+                    
             }
         }
     }
@@ -51,6 +59,12 @@ struct Names: View {
                 HStack
                 {
                     CustomText(text: "Player 1:")
+                        .foregroundColor(.black)
+                        .background(
+                            Image("Grass")
+                            .resizable()
+                            .frame(width: 800, height: 1565)
+                                                )
                     CustomTextField(placeholder: "", variable: $player1NameInput)
                 }
                 HStack
@@ -58,7 +72,7 @@ struct Names: View {
                     CustomText(text: "Player 2:")
                     CustomTextField(placeholder: "", variable: $player2NameInput)
                 }
-                NavigationLink("Next", destination: Player1Choice(name1: player1NameInput, name2: player2NameInput)
+                NavigationLink("Next", destination: Player1Choice(player1NameInput: player1NameInput, player2NameInput: player2NameInput)
                     .navigationBarBackButtonHidden(true)
                     .foregroundColor(.black)
                 )
@@ -78,29 +92,25 @@ struct Names: View {
     }
 }
 
-struct Names_Previews: PreviewProvider {
-    static var previews: some View {
-        Names()
-    }
-}
-
-
-
 struct Player1Choice: View{
-    let name1: String
-    let name2: String
+    let player1NameInput: String
+    let player2NameInput: String
     @State private var P1decider = 0
-    @State private var P1Rock = 0
-    @State private var P1Paper = 0
-    @State private var P1Scissors = 0
+    @State private var p1Choice = ""
+    @State private var display = ""
+    
     var body: some View{
         NavigationView()
         {
             VStack
             {
-                
-                
-                CustomTextTitle(title: "\(name1)")
+                CustomTextTitle(title: "\(player1NameInput)")
+                    .foregroundColor(.black)
+                    .background(
+                        Image("Grass")
+                        .resizable()
+                        .frame(width: 800, height: 1565)
+                                            )
                     .padding()
                 Picker("Selection", selection: $P1decider)
                 {
@@ -112,7 +122,32 @@ struct Player1Choice: View{
                 .padding(40)
                 .onChange(of: P1decider, perform: { newValue in
                     calculatePlayer1Choice()})
-                NavigationLink("Next", destination: Player2Choice(name1: name1, name2: name2, P1decider: 0, P1Rock: 0, P1Paper: 0, P1Scissors: 0)
+                if P1decider == 1
+                {
+                    Image("Rock")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
+                    
+                }
+                
+                if P1decider == 2
+                {
+                    Image("Paper")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
+                }
+                if P1decider == 3
+                {
+                    Image("Scissors")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
+                }
+                
+                Image(display)
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .center)
+                
+                NavigationLink("Next", destination: Player2Choice(player1NameInput: player1NameInput, player2NameInput: player2NameInput, p1Choice: p1Choice)
                     .navigationBarBackButtonHidden(true)
                     .foregroundColor(.black)
                 )
@@ -132,44 +167,40 @@ struct Player1Choice: View{
     {
         if P1decider == 1
         {
-            P1Rock = 1
+            p1Choice = "rock"
         }
         else if P1decider == 2
         {
-            P1Paper = 1
+            p1Choice = "paper"
         }
         else if P1decider == 3
         {
-            P1Scissors = 1
+            p1Choice = "scissors"
         }
-    }
-}
-
-
-
-struct Player1Choice_Previews: PreviewProvider {
-    static var previews: some View {
-        Player1Choice(name1 : "", name2 : "")
+        else {
+            p1Choice = "rock"
+        }
     }
 }
 
 struct Player2Choice: View{
-    let name1: String
-    let name2: String
-    let P1decider: Int
+    let player1NameInput: String
+    let player2NameInput: String
     @State private var P2decider = 0
-    let P1Rock: Int
-     let P1Paper: Int
-     let P1Scissors: Int
-    @State private var P2Rock = 0
-    @State private var P2Paper = 0
-    @State private var P2Scissors = 0
+    @State private var p2Choice = ""
+    let p1Choice : String
     var body: some View{
         NavigationView()
         {
             VStack
             {
-                CustomTextTitle(title: "\(name2)")
+                CustomTextTitle(title: "\(player2NameInput)")
+                    .foregroundColor(.black)
+                    .background(
+                        Image("Grass")
+                        .resizable()
+                        .frame(width: 800, height: 1565)
+                                            )
                     .padding()
                 Picker("Selection", selection: $P2decider)
                 {
@@ -181,7 +212,27 @@ struct Player2Choice: View{
                 .padding(40)
                 .onChange(of: P2decider, perform: { newValue in
                     calculatePlayer2Choice()})
-                NavigationLink("Next", destination: FinalView(name1 : "\(name1)", name2 : "\(name2)", P1decider : 0, P2decider: 0, P1Rock : 0, P1Paper : 0, P1Scissors : 0, P2Rock : 0, P2Paper : 0, P2Scissors : 0)
+                if P2decider == 1
+                {
+                    Image("Rock")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
+                    
+                }
+                
+                if P2decider == 2
+                {
+                    Image("Paper")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
+                }
+                if P2decider == 3
+                {
+                    Image("Scissors")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
+                }
+                NavigationLink("Next", destination: FinalView(player1NameInput : player1NameInput, player2NameInput : player2NameInput, p1Choice: p1Choice, p2Choice: p2Choice)
                     .navigationBarBackButtonHidden(true)
                     .foregroundColor(.black)
                 )
@@ -200,105 +251,154 @@ struct Player2Choice: View{
     {
         if P2decider == 1
         {
-            P2Rock = 1
+            p2Choice = "rock"
         }
         else if P2decider == 2
         {
-            P2Paper = 1
+            p2Choice = "paper"
         }
         else if P2decider == 3
         {
-            P2Scissors = 1
+            p2Choice = "scissors"
+        } else {
+            p2Choice = "rock"
         }
     }
 }
 
-struct Player2Choice_Previews: PreviewProvider {
-    static var previews: some View {
-        Player2Choice(name1 : "", name2 : "", P1decider : 0, P1Rock : 0, P1Paper : 0, P1Scissors : 0)
-    }
-}
-
-struct FinalView: View{
+struct FinalView: View {
     
-    let name1: String
-    let name2: String
-    let P1decider: Int
-    let P2decider: Int
-    let P1Rock: Int
-    let P1Paper: Int
-    let P1Scissors: Int
-    let P2Rock: Int
-    let P2Paper: Int
-    let P2Scissors: Int
-    @State private var Winner = ""
-    @State private var TieGame = "Nobody"
+    let player1NameInput: String
+    let player2NameInput: String
+    let p1Choice : String
+    let p2Choice : String
     
     var body: some View{
         NavigationView
         {
-            Text("Winner: \(Winner)")
-           
+            VStack
+            {
+                Text("\(determineWinner(name1: player1NameInput, name2: player2NameInput, p1Choice: p1Choice, p2Choice: p2Choice))")
+                    .foregroundColor(.black)
+                    .font(.title).bold()
+                    .background(
+                        Image("Grass")
+                        .resizable()
+                        .frame(width: 800, height: 1565)
+                                            )
+                    .padding()
+                HStack{
+                    Text("\(player1NameInput) Chose:")
+                        .foregroundColor(.black)
+                        .padding()
+                    Text("\(player2NameInput) Chose:")
+                        .foregroundColor(.black)
+                }
+                HStack
+                {
+                    //P1 picture display under choice
+                    if p1Choice == "rock"
+                    {
+                        Image("Rock")
+                            .resizable()
+                            .frame(width: 100, height: 100, alignment: .center)
+                    }
+                    if p1Choice == "paper"
+                    {
+                        Image("Paper")
+                            .resizable()
+                            .frame(width: 100, height: 100, alignment: .center)
+                    }
+                    if p1Choice == "scissors"
+                    {
+                        Image("Scissors")
+                            .resizable()
+                            .frame(width: 100, height: 100, alignment: .center)
+                    }
+                // P2 picture display under choice
+                    if p2Choice == "rock"
+                    {
+                        Image("Rock")
+                            .resizable()
+                            .frame(width: 100, height: 100, alignment: .center)
+                    }
+                    if p2Choice == "paper"
+                    {
+                        Image("Paper")
+                            .resizable()
+                            .frame(width: 100, height: 100, alignment: .center)
+                    }
+                    if p2Choice == "scissors"
+                    {
+                        Image("Scissors")
+                            .resizable()
+                            .frame(width: 100, height: 100, alignment: .center)
+                    }
+                }
+                
+                
+                HStack
+                {
+                    NavigationLink("Rematch", destination: Player1Choice(player1NameInput: player1NameInput, player2NameInput: player2NameInput)
+                        .navigationBarBackButtonHidden()
+                        .foregroundColor(.black)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.black, lineWidth: 3).padding(-5)
+                    )
+                    
+                    .font(.system(size: 20))
+                    
+                    .padding()
+                    
+                    
+                    NavigationLink("New Game", destination: Names()
+                        .navigationBarBackButtonHidden()
+                        .foregroundColor(.black)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.black, lineWidth: 3).padding(-5)
+                    )
+                    
+                    .font(.system(size: 20))
+                }
+                Spacer()
+                
+            }
+        }
+    }
+    
+    func determineWinner(name1 : String, name2 : String, p1Choice: String, p2Choice: String) -> String
+    {
+        var text = ""
+        //TIE GAME
+        if p1Choice == p2Choice
+        {
+            text = "Tie - Game"
+        }
+        // Player 1 Winning
+        else if p1Choice == "rock" && p2Choice == "scissors"
+        {
+            text  = "Winner: \(name1)"
             
         }
+        else if p1Choice == "paper" && p2Choice == "rock"
+        {
+            text  = "Winner: \(name1)"
+        }
+        else if p1Choice == "scissors" && p2Choice == "paper"
+        {
+            text  = "Winner: \(name1)"
+        }
+        //Player 2 Winning
+        else {
+            text = "Winner: \(name2)"
+        }
+        return text
     }
     
-    func determineWinner(name1 : String, name2 : String, P1decider : Int, P2decider: Int, P1Rock : Int, P1Paper : Int, P1Scissors : Int, P2Rock : Int, P2Paper : Int, P2Scissors : Int, Winner : String, TieGame : String) -> String
-    {
-        // All Wins for P1
-        
-        if P1Rock == 1 && P2Scissors == 1
-        {
-            self.Winner = name1
-        }
-        else if P1Paper == 1 && P2Rock == 1
-        {
-            self.Winner = name1
-        }
-        else if P1Scissors == 1 && P2Paper == 1
-        {
-            self.Winner = name1
-        }
-        
-        // All Wins for P2
-        
-        else if P2Rock == 1 && P1Scissors == 1
-        {
-            self.Winner = name2
-        }
-        else if P2Paper == 1 && P1Rock == 1
-        {
-            self.Winner = name2
-        }
-        else if P2Scissors == 1 && P1Paper == 1
-        {
-            self.Winner = name2
-        }
-        
-        // All Tie Games
-        
-        else if P1Rock == 1 && P2Rock == 1
-        {
-            self.Winner = TieGame
-        }
-        else if P1Paper == 1 && P2Paper == 1
-        {
-            self.Winner = TieGame
-        }
-        else if P1Scissors == 1 && P2Scissors == 1
-        {
-            self.Winner = TieGame
-        }
-        return"Winner: \(Winner)"
-        
-    }
-    
-}
-
-struct FinalView_Previews: PreviewProvider {
-    static var previews: some View {
-        FinalView(name1 : "", name2 : "", P1decider : 0, P2decider : 0, P1Rock : 0, P1Paper : 0, P1Scissors : 0, P2Rock : 0, P2Paper : 0, P2Scissors : 0)
-    }
 }
 
 // Customs
